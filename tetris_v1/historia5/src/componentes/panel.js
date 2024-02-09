@@ -30,13 +30,15 @@ export const panel = {
     const IDpanel = document.querySelector('#panel')
     IDpanel.innerHTML = ''
 
-    for (let fila = 0; fila < panel.matriz.length; fila++) {
+    for (let fila = 0; fila < panel.matriz.length - 1; fila++) {
       let divFilas = '<div class="fila d-flex justify-content-center">'
 
-      for (let columna = 0; columna < panel.matriz[fila].length; columna++) {
+      for (let columna = 1; columna < panel.matriz[fila].length - 1; columna++) {
         let divCeldas = ''
         if (panel.matriz[fila][columna] === 0) {
           divCeldas += '<div class="celda bg-dark border-secondary"></div>'
+        } else if (panel.matriz[fila][columna] === 1) {
+          divCeldas += '<div class="celda bg-primary border-white"></div>'
         }
         divFilas += divCeldas
       }
@@ -54,19 +56,19 @@ export const panel = {
     let aleatorioX
     switch (ancho) {
       case 1:
-        aleatorioX = Math.floor(Math.random() * 10)
+        aleatorioX = Math.floor(Math.random() * 10) + 1
         console.log('aleatorioX', aleatorioX)
         break
       case 2:
-        aleatorioX = Math.floor(Math.random() * 9)
+        aleatorioX = Math.floor(Math.random() * 9) + 1
         console.log('aleatorioX', aleatorioX)
         break
       case 3:
-        aleatorioX = Math.floor(Math.random() * 8)
+        aleatorioX = Math.floor(Math.random() * 8) + 1
         console.log('aleatorioX', aleatorioX)
         break
       case 4:
-        aleatorioX = Math.floor(Math.random() * 7)
+        aleatorioX = Math.floor(Math.random() * 7) + 1
         console.log('aleatorioX', aleatorioX)
         break
     }
@@ -77,16 +79,14 @@ export const panel = {
     return pieza
   },
   nuevaPieza: null,
-  insertarPieza: (nuevaPieza) => {
-    console.log('NuevaPieza', nuevaPieza)
-    const nuevaPiezaMatriz = panel.matriz
-
-    for (let i = 0; i < nuevaPiezaMatriz.length; i++) {
-      for (let j = 0; j < nuevaPiezaMatriz[i].length; j++) {
-        panel.matriz[i][j + nuevaPieza.x] = nuevaPiezaMatriz[i]
+  insertarPieza: () => {
+    for (let y = 0; y < panel.nuevaPieza.altura; y++) {
+      for (let x = 0; x < panel.nuevaPieza.longitud; x++) {
+        if (panel.nuevaPieza.matriz[y][x] === 1) {
+          panel.matriz[y + panel.nuevaPieza.y][x + panel.nuevaPieza.x] = panel.nuevaPieza.matriz[y][x]
+        }
       }
     }
-    nuevaPieza = null
 
     panel.pintaPanel()
   },
@@ -103,65 +103,56 @@ export const panel = {
           panel.bajar()
           break
         case 'ArrowUp':
-          panel.girar()
+          panel.borrarPieza()
+          panel.nuevaPieza.girar()
+          panel.insertarPieza()
           break
       }
     })
   },
   borrarPieza: () => {
-    panel.matriz = [
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-    ]
-
-    panel.pintaPanel()
+    for (let y = 0; y < panel.nuevaPieza.altura; y++) {
+      for (let x = 0; x < panel.nuevaPieza.longitud; x++) {
+        if (panel.nuevaPieza.matriz[y][x] === 1) {
+          panel.matriz[y + panel.nuevaPieza.y][x + panel.nuevaPieza.x] = 0
+        }
+      }
+    }
   },
   moverDra: () => {
     if (panel.nuevaPieza) {
       panel.borrarPieza()
-      panel.nuevaPieza.x++
-      panel.insertarPieza(panel.nuevaPieza)
+      if ((panel.nuevaPieza.x + panel.nuevaPieza.longitud) <= 10) {
+        panel.nuevaPieza.x++
+      }
+      panel.insertarPieza()
       panel.pintaPanel()
     }
   },
   moverIzq: () => {
     if (panel.nuevaPieza) {
       panel.borrarPieza()
-      panel.nuevaPieza.x--
-      panel.insertarPieza(panel.nuevaPieza)
+      if (panel.nuevaPieza.x > 1) {
+        panel.nuevaPieza.x--
+      }
+      panel.insertarPieza()
       panel.pintaPanel()
     }
   },
   bajar: () => {
     if (panel.nuevaPieza) {
       panel.borrarPieza()
-      panel.nuevaPieza.y++
-      panel.insertarPieza(panel.nuevaPieza)
+      if ((panel.nuevaPieza.y + panel.nuevaPieza.altura) < (panel.matriz.length - 1)) {
+        panel.nuevaPieza.y++
+      }
+      panel.insertarPieza()
       panel.pintaPanel()
     }
   },
   iniciarMovimiento: () => {
-    panel.bajar()
+    setInterval(() => {
+      panel.bajar()
+    }, 1000)
   }
 
 }

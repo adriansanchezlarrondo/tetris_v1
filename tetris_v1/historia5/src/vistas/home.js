@@ -1,4 +1,3 @@
-import { panel } from '../componentes/panel'
 import { juego } from './juego'
 
 export const home = {
@@ -27,7 +26,7 @@ export const home = {
   script: () => {
     document.querySelector('#btnJuego').addEventListener('click', () => {
       document.querySelector('main').innerHTML = juego.template
-      panel.pintaPanel()
+      juego.script()
     })
   }
 }

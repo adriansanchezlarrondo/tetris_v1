@@ -16,5 +16,8 @@ export class ModeloPieza {
     if (this.angulo > 3) {
       this.angulo = 0
     }
+    this.matriz = models[this.modelo].matriz[this.angulo]
+    this.longitud = this.matriz[0].length
+    this.altura = this.matriz.length
   }
 }

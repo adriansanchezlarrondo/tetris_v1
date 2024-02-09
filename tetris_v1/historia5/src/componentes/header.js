@@ -1,7 +1,6 @@
 import { home } from '../vistas/home'
 import { juego } from '../vistas/juego'
 import { ranking } from '../vistas/ranking'
-import { panel } from './panel'
 
 export const header = {
   template: // html
@@ -29,9 +28,7 @@ export const header = {
 
     document.querySelector('#vistaJuego').addEventListener('click', () => {
       document.querySelector('main').innerHTML = juego.template
-      panel.pintaPanel()
-      panel.nuevaPieza = panel.crearNuevaPieza()
-      panel.insertarPieza(panel.nuevaPieza)
+      juego.script()
     })
   }
 }

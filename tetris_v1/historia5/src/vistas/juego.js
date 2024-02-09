@@ -1,3 +1,5 @@
+import { panel } from '../componentes/panel'
+
 export const juego = {
   template: // html
     `
@@ -83,5 +85,12 @@ export const juego = {
         </div>
     </div>
     </div>
-    `
+    `,
+  script: () => {
+    panel.nuevaPieza = panel.crearNuevaPieza()
+    panel.insertarPieza()
+    panel.pintaPanel()
+    panel.controlTeclas()
+    panel.iniciarMovimiento()
+  }
 }
