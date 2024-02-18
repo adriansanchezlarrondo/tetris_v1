@@ -4,7 +4,7 @@ export const home = {
   template: // html
     `
     <div class="d-flex align-items-center justify-content-center">
-        <img src="./img/logo.png" alt="logo" width="200" class="mt-5" />
+        <img src="../img/logo.png" alt="logo" width="200" class="mt-5" />
     </div>
     <div id="intro" class="text-center p-5">
         <p>Tetris és un videojoc de tipus trencaclosques. Fou inventat per l'enginyer informàtic rus Aleksei Pàjitnov l'any 1984,[1] mentre treballava a l'Acadèmia de Ciències de Moscou.</p>
